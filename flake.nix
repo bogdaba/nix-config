@@ -1,10 +1,12 @@
 {
-  description = "Your new nix config";
+  description = "Nyo";
 
   inputs = {
     # Nixpkgs
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable";
+
+    # no need for extra unstalbe
+    # nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable";
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-23.05";
@@ -12,7 +14,6 @@
 
     # TODO: Add any other flake you might need
     # hardware.url = "github:nixos/nixos-hardware";
-
     # Shameless plug: looking for a way to nixify your themes and make
     # everything match nicely? Try nix-colors!
     # nix-colors.url = "github:misterio77/nix-colors";
@@ -22,26 +23,27 @@
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
-      bork-desktop = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; }; # Pass flake inputs to our config
-        # > Our main nixos configuration file <
-        modules = [ ./nixos/configuration.nix ];
-      };
-      bork-laptop = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; }; # Pass flake inputs to our config
-        # > Our main nixos configuration file <
-        modules = [ ./laptop/nixos/configuration.nix ];
-      };
+      #I don't have nixos running anywhere yet
+      #bork-desktop = nixpkgs.lib.nixosSystem {
+      #  specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+      #  # > Our main nixos configuration file <
+      #  modules = [ ./nixos/desktop-configuration.nix ];
+      #};
+      #bork-laptop = nixpkgs.lib.nixosSystem {
+      #  specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+      #  # > Our main nixos configuration file <
+      #  modules = [ ./laptop/nixos/configuration.nix ];
+      #};
     };
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
-      "bork@bork-desktop" = home-manager.lib.homeManagerConfiguration {
+      "bork@popos" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
         # > Our main home-manager configuration file <
-        modules = [ ./laptop/home-manager/home.nix ];
+        modules = [ ./home-manager/popos-home.nix ];
       };
     };
   };
