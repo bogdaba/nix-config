@@ -3,11 +3,12 @@
 
 { inputs, lib, config, pkgs, ... }: 
 
-let
-  unstable = import <nixpkgs-unstable> {
-    config = config.nixpkgs.config;
-  };
-in
+# why did I put it here? to be able to call unstable packages but I only use unstable channel already
+#let
+#  unstable = import <nixpkgs-unstable> {
+#    config = config.nixpkgs.config;
+#  };
+#in
 {
   # You can import other home-manager modules here
   imports = [
@@ -21,6 +22,9 @@ in
   nixpkgs = {
     # You can add overlays here
     overlays = [
+      #inputs.nixgl.overlay
+      
+
       # If you want to use overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
 
@@ -55,15 +59,88 @@ in
   home.packages = with pkgs; [
     steam
     obsidian
-    # etcher - doesn't work I get canberra-gtk-module error
+    #nixgl.nixGLIntel wise man has said easier to use distro package than wrap with nixgl
+    # lost to GL
+    # flameshot
+    #etcher - doesn't work I get canberra-gtk-module error
   ];
 
-  # programs
+  # Zsh
+  # Enable the Zsh shell.
+  programs.zsh.enable = true;
+  programs.zsh.oh-my-zsh.enable = true;
+  programs.zsh.oh-my-zsh.theme = "robbyrussell";
+
+  # Set Zsh as the default shell.
+  home.sessionVariables.SHELL = "${pkgs.zsh}/bin/zsh";
+
+  # Add aliases
+  programs.zsh.shellAliases = {
+    hiigara = "home-manager switch --flake '/home/bork/haven/nix-config#bork@popos'";
+    updateme = "sudo apt update && sudo apt full-upgrade";
+  };
+  
+  
+
+  #programs.zsh.initExtra = ''
+  #  export PATH=$HOME/bin:/usr/local/bin:$PATH
+  #  export ZSH="$HOME/.oh-my-zsh"
+  #'';
+
+
+# apparently it's nixos option only
+#  programs.zsh.shellInit = ''
+#
+#   '';
+#    # If you come from bash you might have to change your $PATH.
+#    export PATH=$HOME/bin:/usr/local/bin:$PATH
+#
+#    # Path to your oh-my-zsh installation.
+#    export ZSH="$HOME/.oh-my-zsh"
+#
+#    # Set name of the theme to load --- if set to "random", it will
+#    # load a random theme each time oh-my-zsh is loaded, in which case,
+#    # to know which specific one was loaded, run: echo $RANDOM_THEME
+#    # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+#    ZSH_THEME="robbyrussell"
+#
+#    # and so on...
+#
+#    # User configuration
+#
+#    # export MANPATH="/usr/local/man:$MANPATH"
+#
+#    # You may need to manually set your language environment
+#    # export LANG=en_US.UTF-8
+#    # Preferred editor for local and remote sessions
+#    # if [[ -n $SSH_CONNECTION ]]; then
+#    #   export EDITOR='vim'
+#    # else
+#    #   export EDITOR='mvim'
+#    # fi
+#
+#    # Compilation flags
+#    # export ARCHFLAGS="-arch x86_64"
+#
+#    # Set personal aliases, overriding those provided by oh-my-zsh libs,
+#    # plugins, and themes. Aliases can be placed here, though oh-my-zsh
+#    # users are encouraged to define aliases within the ZSH_CUSTOM folder.
+#    # For a full list of active aliases, run `alias`.
+#    #
+#    # Example aliases
+#    # alias zshconfig="mate ~/.zshrc"
+#    # alias ohmyzsh="mate ~/.oh-my-zsh"
+#  '';
+#  
 
   # it doesn't work btw.
   # programs.bash.shellAliases = {
-    homenew = "home-manager switch --flake /home/bork/haven/nix-config#bork@bork-desktop";
-  };
+  #  homenew = "home-manager switch --flake /home/bork/haven/nix-config#bork@bork-desktop";
+  #};
+
+  # Flameshot
+  # services.flameshot.enable = true;
+
 
   # Enable home-manager and git
   programs.home-manager.enable = true;

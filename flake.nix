@@ -9,10 +9,12 @@
     # nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable";
 
     # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-23.05";
+    home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # TODO: Add any other flake you might need
+    #nixgl.url = "github:guibou/nixGL";
+
     # hardware.url = "github:nixos/nixos-hardware";
     # Shameless plug: looking for a way to nixify your themes and make
     # everything match nicely? Try nix-colors!
