@@ -55,6 +55,7 @@ in
   home.packages = with pkgs; [
     obsidian
     keepassxc
+    vscode
     # etcher - doesn't work I get canberra-gtk-module error
   ];
 
