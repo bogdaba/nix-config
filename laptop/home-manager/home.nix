@@ -53,8 +53,8 @@ in
 
   # packages
   home.packages = with pkgs; [
-    steam
     obsidian
+    keepassxc
     # etcher - doesn't work I get canberra-gtk-module error
   ];
 
@@ -62,7 +62,7 @@ in
 
   # it doesn't work btw.
   # programs.bash.shellAliases = {
-    homenew = "home-manager switch --flake /home/bork/haven/nix-config#bork@bork-desktop";
+  #  homenew = "home-manager switch --flake /home/bork/haven/nix-config#bork@bork-desktop";
   };
 
   # Enable home-manager and git
