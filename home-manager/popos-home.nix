@@ -60,7 +60,7 @@
     steam
     obsidian
     nomacs
-    kitty
+    #kitty
     #nixgl.nixGLIntel wise man has said easier to use distro package than wrap with nixgl
     # lost to GL
     # flameshot
