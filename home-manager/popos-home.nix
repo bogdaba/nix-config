@@ -59,6 +59,8 @@
   home.packages = with pkgs; [
     steam
     obsidian
+    nomacs
+    kitty
     #nixgl.nixGLIntel wise man has said easier to use distro package than wrap with nixgl
     # lost to GL
     # flameshot
@@ -78,6 +80,7 @@
   programs.zsh.shellAliases = {
     hiigara = "home-manager switch --flake '/home/bork/haven/nix-config#bork@popos'";
     updateme = "sudo apt update && sudo apt full-upgrade";
+    reboot = "systemctl reboot";
   };
   
   
