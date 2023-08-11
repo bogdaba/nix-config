@@ -1,14 +1,10 @@
-# flake.nix --- the heart of my dotfiles
+# Shamelessly stolen from https://github.com/hlissner/dotfiles License: MIT
 #
-# Author:  Henrik Lissner <contact@henrik.io>
-# URL:     https://github.com/hlissner/dotfiles
-# License: MIT
-#
-# Welcome to ground zero. Where the whole flake gets set up and all its modules
-# are loaded.
+# Welcome to ground zero.
+# Where the whole flake gets set up and all its modules are loaded.
 
 {
-  description = "A grossly incandescent nixos config.";
+  description = "Labyrinth";
 
   inputs = 
     {
@@ -33,7 +29,7 @@
 
       mkPkgs = pkgs: extraOverlays: import pkgs {
         inherit system;
-        config.allowUnfree = true;  # forgive me Stallman senpai
+        config.allowUnfree = true;
         overlays = extraOverlays ++ (lib.attrValues self.overlays);
       };
       pkgs  = mkPkgs nixpkgs [ self.overlay ];
