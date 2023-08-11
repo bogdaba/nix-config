@@ -2,9 +2,9 @@
 ##
 ## Set up and enforce XDG compliance. Other modules will take care of their own,
 ## but this takes care of the general cases.
-#
-#{ config, home-manager, ... }:
-#{
+
+{ config, home-manager, ... }:
+{
 #  ### A tidy $HOME is a tidy mind
 #  home-manager.users.${config.user.name}.xdg.enable = true;
 #
@@ -47,5 +47,4 @@
 #      [ -e ~/.Xauthority ] && mv -f ~/.Xauthority "$XAUTHORITY"
 #    '';
 #  };
-#}
-#
+}
