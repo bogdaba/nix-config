@@ -49,11 +49,11 @@ in {
       tldr
     ];
 
-    env = {
-      ZDOTDIR   = "$XDG_CONFIG_HOME/zsh";
-      ZSH_CACHE = "$XDG_CACHE_HOME/zsh";
-      ZGEN_DIR  = "$XDG_DATA_HOME/zgenom";
-    };
+    #env = {
+    #  ZDOTDIR   = "$XDG_CONFIG_HOME/zsh";
+    #  ZSH_CACHE = "$XDG_CACHE_HOME/zsh";
+    #  ZGEN_DIR  = "$XDG_DATA_HOME/zgenom";
+    #};
 
     home.configFile = {
       # Write it recursively so other modules can write files to it
