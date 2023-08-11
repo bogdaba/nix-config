@@ -36,11 +36,11 @@ in {
       };
     };
 
-    env = {
-      PATH = [ "$TMUXIFIER/bin" ];
-      TMUX_HOME = "$XDG_CONFIG_HOME/tmux";
-      TMUXIFIER = "$XDG_DATA_HOME/tmuxifier";
-      TMUXIFIER_LAYOUT_PATH = "$XDG_DATA_HOME/tmuxifier";
-    };
+    #env = {
+    #  PATH = [ "$TMUXIFIER/bin" ];
+    #  TMUX_HOME = "$XDG_CONFIG_HOME/tmux";
+    #  TMUXIFIER = "$XDG_DATA_HOME/tmuxifier";
+    #  TMUXIFIER_LAYOUT_PATH = "$XDG_DATA_HOME/tmuxifier";
+    #};
   };
 }
