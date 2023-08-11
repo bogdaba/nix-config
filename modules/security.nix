@@ -1,6 +1,6 @@
-#{ config, lib, ... }:
-#
-#{
+{ config, lib, ... }:
+
+{
 #  ## System security tweaks
 #  # sets hidepid=2 on /proc (make process info visible only to owning user)
 #  # NOTE Was removed on nixpkgs-unstable because it doesn't do anything
@@ -67,4 +67,4 @@
 #
 #  # So we don't have to do this later...
 #  security.acme.acceptTerms = true;
-#}
+}
