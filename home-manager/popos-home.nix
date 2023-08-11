@@ -3,6 +3,22 @@
 
 { inputs, lib, config, pkgs, ... }: 
 
+# I give up again
+#let
+#  nixgl = inputs.nixgl;
+#  nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" {} ''
+#    mkdir $out
+#    ln -s ${pkg}/* $out
+#    rm $out/bin
+#    mkdir $out/bin
+#    for bin in ${pkg}/bin/*; do
+#     wrapped_bin=$out/bin/$(basename $bin)
+#     echo "exec ${lib.getExe nixgl.auto.nixGLDefault} $bin \$@" > $wrapped_bin
+#     chmod +x $wrapped_bin
+#    done
+#  '';
+#in
+
 # why did I put it here? to be able to call unstable packages but I only use unstable channel already
 #let
 #  unstable = import <nixpkgs-unstable> {
@@ -60,11 +76,14 @@
     steam
     obsidian
     nomacs
+    # Lost to the OpenGL
+    #nixgl.nixGLIntel
+    #(nixGLWrap pkgs.kitty)
+    #(nixGLWrap pkgs.inkscape)
     #kitty
-    #nixgl.nixGLIntel wise man has said easier to use distro package than wrap with nixgl
-    # lost to GL
-    # flameshot
-    #etcher - doesn't work I get canberra-gtk-module error
+    #anki
+    #flameshot
+    #etcher
   ];
 
   # Zsh
