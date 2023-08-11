@@ -1,8 +1,8 @@
-#{ config, options, lib, home-manager, ... }:
-#
-#with lib;
-#with lib.my;
-#{
+{ config, options, lib, home-manager, ... }:
+
+with lib;
+with lib.my;
+{
 #  options = with types; {
 #    user = mkOpt attrs {};
 #
@@ -92,4 +92,4 @@
 #      concatStringsSep "\n"
 #        (mapAttrsToList (n: v: "export ${n}=\"${v}\"") config.env);
 #  };
-#}
+}
