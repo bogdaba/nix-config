@@ -1,17 +1,10 @@
-{ pkgs ? import <nixpkgs> {} }:
+# Shell for bootstrapping flake-enabled nix and home-manager
+# You can enter it through 'nix develop' or (legacy) 'nix-shell'
 
-with pkgs;
-let nixBin =
-      writeShellScriptBin "nix" ''
-        ${nixFlakes}/bin/nix --option experimental-features "nix-command flakes" "$@"
-      '';
-in mkShell {
-  buildInputs = [
-    git
-    nix-zsh-completions
-  ];
-  shellHook = ''
-    export FLAKE="$(pwd)"
-    export PATH="$FLAKE/bin:${nixBin}/bin:$PATH"
-  '';
+{ pkgs ? (import ./nixpkgs.nix) { } }: {
+  default = pkgs.mkShell {
+    # Enable experimental features without having to specify the argument
+    NIX_CONFIG = "experimental-features = nix-command flakes";
+    nativeBuildInputs = with pkgs; [ nix home-manager git ];
+  };
 }

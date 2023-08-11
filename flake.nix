@@ -1,77 +1,85 @@
-# Shamelessly stolen from https://github.com/hlissner/dotfiles License: MIT
-#
-# Welcome to ground zero.
-# Where the whole flake gets set up and all its modules are loaded.
-
 {
-  description = "Labyrinth";
+  description = "How it sounds when you lose your sanity (in NixOS: The Dotfiles Descent)";
 
-  inputs = 
-    {
-      # Core dependencies.
-      nixpkgs.url = "nixpkgs/nixos-unstable";             # primary nixpkgs
-      nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable";  # for packages on the edge
-      home-manager.url = "github:rycee/home-manager/master";
-      home-manager.inputs.nixpkgs.follows = "nixpkgs";
-      agenix.url = "github:ryantm/agenix";
-      agenix.inputs.nixpkgs.follows = "nixpkgs";
+  inputs = {
+    # Nixpkgs
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # You can access packages and modules from different nixpkgs revs
+    # at the same time. Here's an working example:
+    #nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
 
-      # Extras
-      emacs-overlay.url  = "github:nix-community/emacs-overlay";
-      nixos-hardware.url = "github:nixos/nixos-hardware";
-    };
+    # Home manager
+    home-manager.url = "github:nix-community/home-manager/release-23.05";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-  outputs = inputs @ { self, nixpkgs, nixpkgs-unstable, ... }:
+    # TODO: Add any other flake you might need
+    # hardware.url = "github:nixos/nixos-hardware";
+
+    # Shameless plug: looking for a way to nixify your themes and make
+    # everything match nicely? Try nix-colors!
+    # nix-colors.url = "github:misterio77/nix-colors";
+  };
+
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
-      inherit (lib.my) mapModules mapModulesRec mapHosts;
+      inherit (self) outputs;
+      forAllSystems = nixpkgs.lib.genAttrs [
+        "aarch64-linux"
+        "i686-linux"
+        "x86_64-linux"
+        "aarch64-darwin"
+        "x86_64-darwin"
+      ];
+    in
+    rec {
+      # Your custom packages
+      # Acessible through 'nix build', 'nix shell', etc
+      packages = forAllSystems (system:
+        let pkgs = nixpkgs.legacyPackages.${system};
+        in import ./pkgs { inherit pkgs; }
+      );
+      # Devshell for bootstrapping
+      # Acessible through 'nix develop' or 'nix-shell' (legacy)
+      devShells = forAllSystems (system:
+        let pkgs = nixpkgs.legacyPackages.${system};
+        in import ./shell.nix { inherit pkgs; }
+      );
 
-      system = "x86_64-linux";
+      # Your custom packages and modifications, exported as overlays
+      overlays = import ./overlays { inherit inputs; };
+      # Reusable nixos modules you might want to export
+      # These are usually stuff you would upstream into nixpkgs
+      nixosModules = import ./modules/nixos;
+      # Reusable home-manager modules you might want to export
+      # These are usually stuff you would upstream into home-manager
+      homeManagerModules = import ./modules/home-manager;
 
-      mkPkgs = pkgs: extraOverlays: import pkgs {
-        inherit system;
-        config.allowUnfree = true;
-        overlays = extraOverlays ++ (lib.attrValues self.overlays);
+      # NixOS configuration entrypoint
+      # Available through 'nixos-rebuild --flake .#your-hostname'
+      nixosConfigurations = {
+        # FIXME replace with your hostname
+        thinkpad-x240 = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [
+            # > Our main nixos configuration file <
+            ./nixos/configuration.nix
+          ];
+        };
       };
-      pkgs  = mkPkgs nixpkgs [ self.overlay ];
-      pkgs' = mkPkgs nixpkgs-unstable [];
 
-      lib = nixpkgs.lib.extend
-        (self: super: { my = import ./lib { inherit pkgs inputs; lib = self; }; });
-    in {
-      lib = lib.my;
-
-      overlay =
-        final: prev: {
-          unstable = pkgs';
-          my = self.packages."${system}";
+      # Standalone home-manager configuration entrypoint
+      # Available through 'home-manager --flake .#your-username@your-hostname'
+      homeConfigurations = {
+        # FIXME replace with your username@hostname
+        "your-username@your-hostname" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [
+            # > Our main home-manager configuration file <
+            ./home-manager/home.nix
+          ];
         };
-
-      overlays =
-        mapModules ./overlays import;
-
-      packages."${system}" =
-        mapModules ./packages (p: pkgs.callPackage p {});
-
-      nixosModules =
-        { dotfiles = import ./.; } // mapModulesRec ./modules import;
-
-      nixosConfigurations =
-        mapHosts ./hosts {};
-
-      #devShell."${system}" =
-      #  import ./shell.nix { inherit pkgs; };
-
-      templates = {
-        full = {
-          path = ./.;
-          description = "A grossly incandescent nixos config";
-        };
-      } // import ./templates;
-      defaultTemplate = self.templates.full;
-
-      defaultApp."${system}" = {
-        type = "app";
-        program = ./bin/hey;
       };
     };
 }
