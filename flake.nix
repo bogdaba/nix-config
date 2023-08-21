@@ -22,7 +22,7 @@
       #    ];
       #};
       desktop = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs outputs; };
         modules = [
           ./nixos-desktop/configuration.nix
           ];
