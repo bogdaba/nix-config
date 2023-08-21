@@ -336,8 +336,9 @@
   #  }; 
   programs.fish.enable = true;
   programs.fish.shellAliases = {
-    nixos-rebuild = "sudo nixos-rebuild switch --flake /home/bork/nix-config#desktop";
+    nixos-rebuild = "nix-channel --update && sudo nixos-rebuild switch --upgrade --flake /home/bork/nix-config#desktop";
     nixos-checkflake = "nix flake check /home/bork/nix-config";
+    nixos-cleanup = "nix-collect-garbage";
   };
 
   programs.firefox.enable = true;
