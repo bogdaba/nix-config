@@ -334,6 +334,7 @@
   #    Type = "oneshot";
   #    User = "bork";
   #  }; 
+  programs.dconf.enable = true;
   programs.fish.enable = true;
   programs.fish.shellAliases = {
     nixos-rebuild = "nix-channel --update && sudo nixos-rebuild switch --upgrade --flake /home/bork/nix-config#desktop";
@@ -369,6 +370,7 @@
       extraGroups = [ "networkmanager" "wheel" ];
 
       packages = with pkgs; [
+        gnome.gnome-tweaks
         thunderbird
         vscode-fhs
         keepassxc
