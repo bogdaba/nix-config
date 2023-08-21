@@ -408,7 +408,7 @@
         libwacom
         duplicity
         libsForQt5.kdenlive
-        davinci-resolve
+        #davinci-resolve
         deja-dup
         piper-tts
         libratbag
