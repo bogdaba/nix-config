@@ -1,5 +1,5 @@
 {
-  description = "How it sounds when you lose your sanity (in NixOS: The Dotfiles Descent) https://youtu.be/oig9XQAL928";
+  description = "How it sounds when you lose your sanity (in NixOS: The Dotfiles Descent) https://youtu.be/hFcLyDb6niA";
   # https://github.com/Misterio77/nix-starter-configs/blob/main/minimal/flake.nix
 
   inputs = {

@@ -334,14 +334,17 @@
   #    Type = "oneshot";
   #    User = "bork";
   #  }; 
-  
-
+  programs.fish.enable = true;
+  programs.fish.shellAliases = {
+    nixos-rebuild = "sudo nixos-rebuild switch --flake /home/bork/nix-config#desktop";
+    nixos-checkflake = "nix flake check /home/bork/nix-config";
+  };
 
   programs.firefox.enable = true;
   #programs.firefox.package = (pkgs.wrapFirefox.override { libpulseaudio = pkgs.libpressureaudio; }) pkgs.firefox-unwrapped { };
   #programs.zsh.enable = true;
   #programs.zsh.ohMyZsh.theme = "robbyrussell";
-  programs.fish.enable = true;
+  #programs.fish.enable = true;
   programs.git.enable = true;
   programs.git.config = {
     init = {
