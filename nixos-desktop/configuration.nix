@@ -384,7 +384,7 @@
         anki
         speedtest-cli
         archivebox
-        looking-glass-client
+        #looking-glass-client
         ffmpeg_6-full
         wineWowPackages.waylandFull
         wineWow64Packages.waylandFull
@@ -401,20 +401,20 @@
         libsForQt5.dolphin
         libsForQt5.qt5ct
         libsForQt5.breeze-icons
+        libsForQt5.kdenlive
         qbittorrent
         scrcpy
         calibre
         krita
         libwacom
         duplicity
-        libsForQt5.kdenlive
         #davinci-resolve
         deja-dup
-        piper-tts
-        libratbag
+        #piper-tts
+        #libratbag
         piper
         solaar
-        microsoft-edge-dev # easy tts
+        #microsoft-edge-dev # easy tts
         tts
         espeak-classic
         tree
