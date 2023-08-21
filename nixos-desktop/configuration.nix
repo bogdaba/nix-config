@@ -40,6 +40,9 @@
     config = {
       # Disable if you don't want unfree packages
       allowUnfree = true;
+      permittedInsecurePackages = [
+        "python3.10-django-3.1.14"
+      ];
     };
   };
 
@@ -355,9 +358,9 @@
   users.users = {
     bork = {
       isNormalUser = true;
-      home.sessionVariables = {
-        NIX_PATH = "nixos-config=/etc/nixos/configuration.nix:/etc/nixos/nixpkgs";
-      };
+      #home.sessionVariables = {
+      #  NIX_PATH = "nixos-config=/etc/nixos/configuration.nix:/etc/nixos/nixpkgs";
+      #};
       description = "Borkwave";
       extraGroups = [ "networkmanager" "wheel" ];
 
@@ -390,7 +393,7 @@
         openscad
         godot_4
         python3Full
-        #gammastep #redshift for Wayland
+        gammastep #redshift for Wayland
         hledger
         okular
         mc
@@ -404,14 +407,14 @@
         krita
         libwacom
         duplicity
-        #libsForQt5.kdenlive
-        #davinci-resolve
+        libsForQt5.kdenlive
+        davinci-resolve
         deja-dup
         piper-tts
         libratbag
         piper
         solaar
-        #microsoft-edge-dev # easy tts
+        microsoft-edge-dev # easy tts
         tts
         espeak-classic
         tree
