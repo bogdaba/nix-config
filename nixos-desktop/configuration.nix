@@ -373,6 +373,7 @@
       packages = with pkgs; [
         gnome.gnome-tweaks
         thunderbird
+        ungoogled-chromium
         vscode-fhs
         keepassxc
         obsidian
