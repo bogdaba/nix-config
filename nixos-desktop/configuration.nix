@@ -89,7 +89,12 @@
     LC_TELEPHONE = "en_US.UTF-8";
     LC_TIME = "en_US.UTF-8";
   };
-  
+
+  # --- AMD ---
+  boot.initrd.kernelModules = [ "amdgpu" ];
+  services.xserver.videoDrivers = [ "amdgpu" ];
+
+
   # --- Nvidia ---
   # Make sure opengl is enabled
   hardware.opengl = {
@@ -101,7 +106,7 @@
   # Option         "TripleBuffer" "True"
   # Option         "RegistryDwords" "PerfLevelSrc=0x3322; PowerMizerDefaultAC=0x1"
   # Tell Xorg to use the nvidia driver (also valid for Wayland)
-  services.xserver.videoDrivers = ["nvidia"];
+  #services.xserver.videoDrivers = ["nvidia"];
   #services.xserver.screenSection = ''
   #Section "Screen"
   #  Identifier     "Screen0"
@@ -120,13 +125,13 @@
   #EndSection
   #'';
 
-  hardware.nvidia = {
-    modesetting.enable = true; # needed for most Wayland compositors.
-    open = false; # Use the open source version of the kernel module
-    nvidiaSettings = true; # Enable the nvidia settings menu
+  #hardware.nvidia = {
+  #  modesetting.enable = true; # needed for most Wayland compositors.
+  #  open = false; # Use the open source version of the kernel module
+  #  nvidiaSettings = true; # Enable the nvidia settings menu
     # https://forums.developer.nvidia.com/t/flickering-at-the-top-of-the-screen/256447
-    package = config.boot.kernelPackages.nvidiaPackages.stable; # Optionally, you may need to select the appropriate driver version for your specific GPU. or stable
-  };
+  #  package = config.boot.kernelPackages.nvidiaPackages.stable; # Optionally, you may need to select the appropriate driver version for your specific GPU. or stable
+  #};
 
 
   # --- Nvidia settings ---
@@ -148,7 +153,7 @@
   # --- Wayland land ---
   services.xserver.displayManager.gdm.wayland = true;
   programs.xwayland.enable = true; # Whether to use XWayLand
-  #environment.sessionVariables.MOZ_ENABLE_WAYLAND = "1"; # Firefox
+  environment.sessionVariables.MOZ_ENABLE_WAYLAND = "1"; # Firefox
   environment.sessionVariables.NIXOS_OZONE_WL = "1"; # For electron
 
   environment.sessionVariables.LEDGER_FILE = "/home/bork/haven/vault/finance/2023.journal";
@@ -276,65 +281,6 @@
       Unit = "rdiff-home.service";
     };
   };
- 
-  #systemd.timers."hello-world" = {
-  #  wantedBy = [ "timers.target" ];
-  #    timerConfig = {
-  #      OnBootSec = "5m";
-  #      OnUnitActiveSec = "5m";
-  #      Unit = "hello-world.service";
-  #    };
-  #};
-
-  #systemd.timers."backup-home" = {
-  #  wantedBy = [ "timers.target" ];
-  #    timerConfig = {
-  #      OnBootSec = "5m";
-  #      OnUnitActiveSec = "5m";
-  #      Unit = "backup-home.service";
-  #    };
-  #};
-
-  #systemd.user.services.foo = {
-  #script = ''
-  #  echo "Doing some X11 stuff"
-  #'';
-  #wantedBy = [ "graphical-session.target" ];
-  #partOf = [ "graphical-session.target" ];
-  #};
-
-  #systemd.user.services."keepassxc" = {
-  #  script = ''
-  #    keepassxc
-  #  '';
-  #  serviceConfig = {
-  #    Type = "oneshot";
-  #    User = "bork";
-  #  };
-  #  wantedBy = [ "graphical-session.target" ];
-  #  partOf = ["graphical-session.target"];
-  #};
-
-
-  #systemd.services."hello-world" = {
-  #  script = ''
-  #    set -eu
-  #    ${pkgs.coreutils}/bin/echo "Hello World"
-  #  '';
-  #  serviceConfig = {
-  #    Type = "oneshot";
-  #    User = "bork";
-  #  };
-  #};
-
-  #systemd.services."backup-home" = {
-  #  script = ''
-  #    rdiff-backup /home/bork /basement/test
-  #  '';
-  #  serviceConfig = {
-  #    Type = "oneshot";
-  #    User = "bork";
-  #  }; 
   programs.dconf.enable = true;
   programs.fish.enable = true;
   programs.fish.shellAliases = {
@@ -397,7 +343,7 @@
         wineWowPackages.waylandFull
         wineWow64Packages.waylandFull
         aseprite
-        blender
+        blender-hip
         openscad
         godot_4
         python3Full
@@ -410,13 +356,15 @@
         libsForQt5.qt5ct
         libsForQt5.breeze-icons
         libsForQt5.kdenlive
+        mediainfo # for kde
+        glaxnimate # for kde
         qbittorrent
         scrcpy
         calibre
         krita
         libwacom
         duplicity
-        #davinci-resolve
+        davinci-resolve
         deja-dup
         #piper-tts
         #libratbag
