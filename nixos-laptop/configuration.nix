@@ -17,7 +17,7 @@
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
-
+  # comment
   nixpkgs = {
     # You can add overlays here
     overlays = [
