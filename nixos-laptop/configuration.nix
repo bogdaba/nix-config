@@ -18,6 +18,7 @@
     ./hardware-configuration.nix
   ];
   # comment ahh
+  # no comments allowed
   nixpkgs = {
     # You can add overlays here
     overlays = [
